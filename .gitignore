@@ -1,3 +1,5 @@
 __pycache__
 /en/*
 /jp/*
+!/en/_words.txt
+!/jp/_words.txt
