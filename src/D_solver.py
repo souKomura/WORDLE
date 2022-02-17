@@ -35,7 +35,7 @@ def solver(lang="en", feedback = False):
         
         #ユーザによる入力
         print_ui(notice, hint_hist, word_entropy, voc, usr_input_lis)
-        usr_input = input("{} guess > ".format(game.correct_word, len(voc_original), len(voc)))
+        usr_input = input("guess > ")
         score, message = game.guess(usr_input)
 
         if feedback:
@@ -48,6 +48,7 @@ def solver(lang="en", feedback = False):
                     score = score*3 + 1
                 else:
                     score = score*3 + 0
+            message = Wordle.score_to_string(score)
 
 
         if score >= 0:
@@ -55,6 +56,8 @@ def solver(lang="en", feedback = False):
             voc = filter_possible(voc, usr_input, score)
             entropy = compute_entropy(voc_original, voc, score_mat, word_to_index)
             word_entropy = list(zip(voc_original, entropy))
+            # entropy = compute_entropy(voc, voc, score_mat, word_to_index)
+            # word_entropy = list(zip(voc, entropy))
             hint_hist.append(message)
             usr_input_lis.append(usr_input)
             if score == 3**5-1:
@@ -112,16 +115,17 @@ def print_ui(notice, hint_hist, word_entropy, voc, usr_input_lis):
     
 
 #-----------------------------------
-def compute_entropy(voc_original, voc, score_mat, word_to_index):
+def compute_entropy(voc_source, voc_target, score_mat, word_to_index):
     """エントロピーをvoc内全ての単語について計算"""
     
     #単語ごとにスコアの分布を保存
     # possible_score_dic[i][j]... 単語iでスコアjとなる単語の数
-    possible_score_lis = [collections.defaultdict(int) for _ in range(len(voc_original))]
-    for i in range(len(voc_original)):
-        for j in range(len(voc)):
-            mati,matj = i, word_to_index[voc[j]]
+    possible_score_lis = [collections.defaultdict(int) for _ in range(len(voc_source))]
+    for i in range(len(voc_source)):
+        for j in range(len(voc_target)):
+            mati,matj = word_to_index[voc_source[i]], word_to_index[voc_target[j]]
             possible_score_lis[i][score_mat[mati, matj]] += 1
+            # possible_score_lis[i][Wordle.get_score(voc_source[i], voc_target[j])] += 1
     
     #単語ごとに，分布をもとにエントロピーを求める．
     entropy_lis = []
@@ -171,11 +175,15 @@ def filter_possible(voc, usr_input, score):
         for i,c in ghint:
             if word_lis[i] != c:
                 green_match = False
+            else:
+                word_lis[i] = "_"
 
         yellow_match = True
         for c in yhint:
             if not(c in word_lis):
                 yellow_match = False
+            else:
+                word_lis.remove(c)
         
         black_contain = False
         for c in bhint:
