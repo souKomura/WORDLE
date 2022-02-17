@@ -5,7 +5,7 @@ wordle in jp / en with entropy based suggestion
 
 # Requirement
 * Python3.x
-* vocabulary file namely src/en/words.txt or src/jp/words.txt.
+* vocabulary file namely en/words.txt or jp/words.txt.
   * vocabulary file must line-separated. See _words.txt for reference.
   * English<https://github.com/dwyl/english-words>
   * Japanese<http://www17408ui.sakura.ne.jp/tatsum/english/databaseE.html>
