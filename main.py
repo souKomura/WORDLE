@@ -22,7 +22,7 @@ def main():
         print("culculating first entropies...")
         C_make_first_entropy_lis.make_first_entropy(lang)
     
-    D_solver.solver(lang)
+    D_solver.solver(lang, False)
     
     return
 
