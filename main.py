@@ -1,4 +1,5 @@
 import os
+import argparse
 from src import (
     A_make_five,
     B_make_score_marix,
@@ -7,7 +8,14 @@ from src import (
 )
 
 def main():
-    lang = "en"
+    parser = argparse.ArgumentParser()
+    parser.add_argument("-f", "--feedback", help="turn on user-typed feedback.", action="store_true")
+    parser.add_argument("-l", "--language", help="set wordle language", choices=["en", "jp"], default="en")
+
+    args = parser.parse_args()
+
+    lang = args.language
+
     path = "./{}/".format(lang)
 
     if not os.path.exists(path + "five.txt"):
@@ -22,7 +30,7 @@ def main():
         print("culculating first entropies...")
         C_make_first_entropy_lis.make_first_entropy(lang)
     
-    D_solver.solver(lang, False)
+    D_solver.solver(lang, args.feedback)
     
     return
 
