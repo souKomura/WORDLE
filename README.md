@@ -5,6 +5,8 @@ wordle in jp / en with entropy based suggestion
 
 # Requirement
 * Python3.x
+* vocabulary file namely src/en/words.txt or src/jp/words.txt.
+** vocabulary file must line-separated. see _words.txt for reference.
 
 # Usage
 put line-seoarated vocabulary file on /en or /jp, named "words.txt"<br>
