@@ -18,6 +18,10 @@ def main():
 
     path = "./{}/".format(lang)
 
+    if not os.path.exists(path + "words.txt"):
+        print("make words.txt file.")
+        return
+
     if not os.path.exists(path + "five.txt"):
         print("filter words with five characters...")
         A_make_five.make_five(lang)
